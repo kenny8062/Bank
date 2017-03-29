@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public class Bank1 {
+public abstract class Account {
 	private double account;
 	private double much;
 	public double getaccount(){
@@ -12,11 +12,8 @@ public class Bank1 {
 		this.account=account;
 	}
 
-	public double debit(){
-		System.out.print("How much");
-		Scanner input1=new Scanner(System.in);
-		double much=input1.nextInt();
-		account -=much;
+	public double debit(double amount){
+		account -=amount;
 		if(account>=0){
 				return 0;
 		}
@@ -30,8 +27,10 @@ public class Bank1 {
 		return account;
 
 	}
-	public Bank1(double account1){
+	public Account(double account1){
 		account=account1;
 	}
+	public abstract double getWithdrawableAccount();
+	public abstract void passTime(int month);
 
 }
