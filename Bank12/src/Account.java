@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public abstract class Account {
+public abstract class Account  implements Valuable{
 	private double account;
 	private double much;
 	public double getaccount(){

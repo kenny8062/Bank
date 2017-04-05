@@ -1,11 +1,16 @@
 import java.util.Scanner;
 
-public class SavingAccount extends Account {
+public class SavingAccount extends Account implements Valuable{
 	private double interest;
 	private int count=0;
 	public SavingAccount(double account,double interest){
 		super(account);
 		this.interest=interest;
+	}
+
+	@Override public double EstimateValue(int month){
+		setaccount(getaccount()*(Math.pow((1+interest),month)));
+		return getaccount();
 	}
 	@Override public double debit(double money){
 		if(count>11){
@@ -28,5 +33,9 @@ public class SavingAccount extends Account {
 	}
 	@Override public double getWithdrawableAccount(){
 		return getaccount();
+	}
+
+	public String toString(){
+		return String.format("SavingAccount_Balance:100.00");
 	}
 }

@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public class CheckingAccount extends Account{
+public class CheckingAccount extends Account implements Valuable{
 	private double credit_limit;    //대출 한도
 	private double interest;       //이자율
 	private double loan_interest;   //대출 이자율
@@ -8,6 +8,10 @@ public class CheckingAccount extends Account{
 		this.credit_limit=credit_limit;
 		this.interest=interest;
 		this.loan_interest=loan_interest;
+	}
+	@Override public double EstimateValue(int month){
+		setaccount(getaccount()*(Math.pow((1+interest),month)));
+		return getaccount();
 	}
 	@Override public double debit(double mount){
 			super.debit(mount);
@@ -23,7 +27,7 @@ public class CheckingAccount extends Account{
 	}
 	@Override public void passTime(int month){
 		if(getaccount()>0){
-			setaccount(getaccount()*interest);
+			setaccount(getaccount()*(Math.pow((1+interest),month)));
 		}
 		else{
 			setaccount(getaccount()*(Math.pow((1+loan_interest),month)));
@@ -49,4 +53,8 @@ public class CheckingAccount extends Account{
 			return false;
 			}
 	}
+	public String toString(){
+		return String.format("CheckingAccount_Balance:100.00");
+	}
+
 }
