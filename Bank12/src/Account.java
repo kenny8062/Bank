@@ -1,36 +1,31 @@
 import java.util.Scanner;
-public abstract class Account  implements Valuable{
-	private double account;
+import java.util.InputMismatchException;
+public abstract class Account{
+	private double balance;
 	private double much;
 	public double getaccount(){
-		return account;
+		return balance;
 	}
 	public double getmuch(){
 		return much;
 	}
 	protected void setaccount(double account){
-		this.account=account;
+		this.balance=account;
 	}
 
-	public double debit(double amount){
-		account -=amount;
-		if(account>=0){
-				return 0;
-		}
-		return 0;
-	}	  
+	public void debit(double amount) throws Exception{
+		balance -=amount;
+	}
 	public double credit(){
 		System.out.print("How much");
 		Scanner input3=new Scanner(System.in);
 		much=input3.nextInt();
-		account +=much;
-		return account;
+		balance +=much;
+		return balance;
 
 	}
 	public Account(double account1){
-		account=account1;
+		balance=account1;
 	}
-	public abstract double getWithdrawableAccount();
-	public abstract void passTime(int month);
-
+	public void passTime(int month){};
 }

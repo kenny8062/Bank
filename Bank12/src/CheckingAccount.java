@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public class CheckingAccount extends Account implements Valuable{
+public class CheckingAccount extends Account{
 	private double credit_limit;    //대출 한도
 	private double interest;       //이자율
 	private double loan_interest;   //대출 이자율
@@ -9,21 +9,18 @@ public class CheckingAccount extends Account implements Valuable{
 		this.interest=interest;
 		this.loan_interest=loan_interest;
 	}
-	@Override public double EstimateValue(int month){
-		setaccount(getaccount()*(Math.pow((1+interest),month)));
-		return getaccount();
-	}
-	@Override public double debit(double mount){
-			super.debit(mount);
-			if(getaccount()<0){
-				if(getaccount()<-credit_limit){
-					System.out.println("대출한도를 초과했습니다");
-				}
-				else{
-					System.out.println("대출받으셨습니다");
-				}
-			}	
-		return 0;
+	@Override public void debit(double mount)throws Exception{
+			if(mount<0){
+				throw new Exception ("양수를 입력하세요");
+			}
+			if(mount>getaccount() + credit_limit){
+				throw new Exception("한도초과");
+			}
+			else{
+				super.debit(mount);
+				System.out.println("대출받으셨습니다");
+			}
+			
 	}
 	@Override public void passTime(int month){
 		if(getaccount()>0){
@@ -31,19 +28,6 @@ public class CheckingAccount extends Account implements Valuable{
 		}
 		else{
 			setaccount(getaccount()*(Math.pow((1+loan_interest),month)));
-		}
-	}
-	@Override public double getWithdrawableAccount(){
-		if(getaccount()<0){
-			if(credit_limit+getaccount()<0){
-				return 0;
-			}
-			else {
-				return getaccount()+credit_limit;
-			}
-		}
-		else{
-			return getaccount()+credit_limit;
 		}
 	}
 	public boolean isBankrupted(){
