@@ -1,9 +1,9 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
-public abstract class Account{
+public abstract class Account implements Valuable{
 	private double balance;
 	private double much;
-	public double getaccount(){
+	public double getBalance(){
 		return balance;
 	}
 	public double getmuch(){
@@ -16,16 +16,16 @@ public abstract class Account{
 	public void debit(double amount) throws Exception{
 		balance -=amount;
 	}
-	public double credit(){
-		System.out.print("How much");
-		Scanner input3=new Scanner(System.in);
-		much=input3.nextInt();
+	public double credit(int much){
 		balance +=much;
 		return balance;
-
 	}
 	public Account(double account1){
 		balance=account1;
 	}
-	public void passTime(int month){};
+	public abstract double getWithdrawableAccount();
+	public abstract void passTime(int month);
+	public abstract void passTime();
+	public abstract double EstimateValue(int month);
+	public abstract double EstimateValue();
 }

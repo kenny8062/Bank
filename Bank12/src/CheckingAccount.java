@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public class CheckingAccount extends Account{
+public class CheckingAccount extends Account implements Valuable{
 	private double credit_limit;    //대출 한도
 	private double interest;       //이자율
 	private double loan_interest;   //대출 이자율
@@ -9,11 +9,31 @@ public class CheckingAccount extends Account{
 		this.interest=interest;
 		this.loan_interest=loan_interest;
 	}
+	@Override public double EstimateValue(int month){
+		 		return getBalance()*(Math.pow((1+interest),month));
+		 	}
+
+	@Override public double EstimateValue(){
+		 		return getBalance()*(Math.pow((1+interest),1));
+		 	}
+	@Override public double getWithdrawableAccount(){
+		 		if(getBalance()<0){
+		 			if(credit_limit+getBalance()<0){
+		 				return 0;
+		 			}
+		 			else {
+		 				return getBalance()+credit_limit;
+		 			}
+		 		}
+		 		else{
+		 			return getBalance()+credit_limit;
+		 		}
+		 	}
 	@Override public void debit(double mount)throws Exception{
 			if(mount<0){
 				throw new Exception ("양수를 입력하세요");
 			}
-			if(mount>getaccount() + credit_limit){
+			if(mount>getBalance() + credit_limit){
 				throw new Exception("한도초과");
 			}
 			else{
@@ -23,15 +43,23 @@ public class CheckingAccount extends Account{
 			
 	}
 	@Override public void passTime(int month){
-		if(getaccount()>0){
-			setaccount(getaccount()*(Math.pow((1+interest),month)));
+		if(getBalance()>0){
+			setaccount(getBalance()*(Math.pow((1+interest),month)));
 		}
 		else{
-			setaccount(getaccount()*(Math.pow((1+loan_interest),month)));
+			setaccount(getBalance()*(Math.pow((1+loan_interest),month)));
+		}
+	}
+	@Override public void passTime(){
+		if(getBalance()>0){
+			setaccount(getBalance()*(Math.pow((1+interest),1)));
+		}
+		else{
+			setaccount(getBalance()*(Math.pow((1+loan_interest),1)));
 		}
 	}
 	public boolean isBankrupted(){
-		if(getaccount()<-credit_limit)
+		if(getBalance()<-credit_limit)
 			return true;
 		else{
 			return false;
